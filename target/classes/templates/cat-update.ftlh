@@ -7,42 +7,65 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
-    <title>Student List</title>
+            <link rel="stylesheet" href="/css/pure-min.css" />
+            <link rel="stylesheet" href="/css/grids-responsive-min.css" />
+            <link rel="stylesheet" href="/css/styles.css" />
+    <title>Cat List</title>
 
     <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 
-<body>
+<body style="background-color: #ffff;">
 
-<!-- Begin Nav Bar -->
-<nav class="navbar navbar-expand-lg  navbar-dark" style="background-color: #ffffff99;">
-    <a class="navbar-brand" href="/students/all" style="margin: 10px;">
-        <img src="/images/logo.jpg" alt="" width="80" height="60">
-    </a>
-    <ul class="nav justify-content-end">
-        <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/students/all">Home</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Second</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Third</a>
-        </li>
-    </ul>
-</nav>
 
-<div class="container" style="margin-top: 15px;">
+    <div>
+        <div class="header" >
+          <div class="pure-menu pure-menu-horizontal">
+            <a class="pure-menu-heading" href="index">Cats!</a>
+  
+            <ul class="pure-menu-list">
+              <li class="pure-menu-item pure-menu-selected">
+                <a href="index" class="pure-menu-link">Home</a>
+              </li>
+              <li class="pure-menu-item">
+                <a href="details" class="pure-menu-link">Details</a>
+              </li>
+              <li class="pure-menu-item">
+                <a href="all" class="pure-menu-link">About</a>
+              </li>
+              <li class="pure-menu-item">
+                <a href="createForm" class="pure-menu-link">Create Cat</a>
+              </li>
+
+            </ul>
+          </div>
+        </div>
+
+<div class="container" style="margin-top: 15px;" >
     <h1>${title}</h1>
-    <form id="new-student" action="/students/update/${student.studentId?c}" method="post">
-        <input type="text" id="studentId" name="studentId" value="${student.studentId?c}" readonly/>
-        <input type="text" id="name" name="name" value="${student.name}" placeholder="Name"/>
-        <input type="text" id="major" name="major"  value="${student.major}" placeholder="Major"/>
-        <input type="number" id="gpa" name="gpa" step="0.01" value="${student.gpa}" placeholder="GPA"/>
+    <form id="new-cat" action="/cats/update/${cat.catID?c}" method="post">
+        <input type="text" id="catID" name="catID" value="${cat.catID?c}" readonly/>
+        <input type="text" id="catName" name="catName" value="${cat.catName}" placeholder="Name"/>
+        <input type="text" id="desc" name="desc"  value="${cat.desc}" placeholder="Description"/>
+        <input type="text" id="breed" name="breed"  value="${cat.breed}" placeholder="Breed"/>
+        <input type="number" id="age" name="age" step="0.01" value="${cat.age}" placeholder="Age"/>
         <button type="submit" class="btn btn-primary">Save</button>
-       <a href="/students/${student.studentId?c}" class="btn btn-outline-danger" >Cancel</a>
-    </form>
+        <a href="/cats/delete/${cat.catID?c}" class="btn btn-outline-danger" >Delete</a>
 
+       <a href="/cats/${cat.catID?c}" class="btn btn-outline-danger" >Cancel</a>
+    </form>
+    <div class="pure-u-1">
+        <div class="l-box">
+          
+
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      View the source of this layout to learn more. Made by Brian Granados with https://pure-css.github.io/
+    </div>
 </div>
 </body>
 </html>

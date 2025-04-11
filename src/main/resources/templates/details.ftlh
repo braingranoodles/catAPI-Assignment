@@ -17,18 +17,23 @@
     <div>
       <div class="header">
         <div class="pure-menu pure-menu-horizontal">
-          <a class="pure-menu-heading" href="index.ftlh">Cats!</a>
+          <a class="pure-menu-heading" href="index">Cats!</a>
 
           <ul class="pure-menu-list">
             <li class="pure-menu-item pure-menu-selected">
-              <a href="index.ftlh" class="pure-menu-link">Home</a>
+              <a href="index" class="pure-menu-link">Home</a>
             </li>
             <li class="pure-menu-item">
-              <a href="details.ftlh" class="pure-menu-link">Details</a>
+              <a href="details" class="pure-menu-link">Details</a>
             </li>
             <li class="pure-menu-item">
-              <a href="about.ftlh" class="pure-menu-link">About</a>
+              <a href="all" class="pure-menu-link">About</a>
             </li>
+            <li class="pure-menu-item">
+              <a href="createForm" class="pure-menu-link">Create Cat</a>
+            </li>
+
+            
           </ul>
         </div>
       </div>
@@ -116,19 +121,6 @@
                 </div>
                 
               
-            </div>
-            <h1 class="content-subhead">User submitted cats!</h1>
-            <h2 class="content-subhead">Cat Name: ${cat.catName}</h2>
-            <p>
-                Cat Description: ${cat.desc}
-            </p>
-            <p>
-                Cat Breed: ${cat.breed}
-            </p>
-            <p>
-                Cat Age: ${cat.age}
-            </p>
-
             
         </div>
         <div class="last-section"></div>

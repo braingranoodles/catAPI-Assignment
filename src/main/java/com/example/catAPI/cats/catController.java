@@ -8,8 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 /** 
@@ -139,6 +137,7 @@ public class catController {
     public String showUpdateForm(@PathVariable int catID, Model model) {
         model.addAttribute("cat", service.getCatByID(catID));
         model.addAttribute("title", "Update Cat");
+        
         return "cat-update";
     }
 
@@ -156,10 +155,10 @@ public class catController {
      */
  
     @PostMapping("/new")
-    public Object addNewCat(@RequestBody cat cat) {
+    public Object addNewCat(cat cat) {
         service.addNewCat(cat);
-        return new ResponseEntity<>(service.getAllCats(), HttpStatus.CREATED);
-    }
+        return "redirect:/cats/all";
+    }  
     
     /**
      * Update an existing cat object.
@@ -169,13 +168,13 @@ public class catController {
      * @param cat   the new update cat details.
      * @return the updated cat object.
      */
-    @PutMapping("/update/{catID}")
-    public Object updateCat(@PathVariable int catID, @RequestBody cat cat) {
+    @PostMapping("/update/{catID}")
+    public Object updateCat(@PathVariable int catID, cat cat) {
         service.updateCat(catID, cat);
-        return new ResponseEntity<>(service.getCatByID(catID), HttpStatus.CREATED);
+        return "redirect:/cats/" + catID;
 
         
-    }
+    } 
 
     /**
      * Delete a cat object.
@@ -187,7 +186,21 @@ public class catController {
     @GetMapping("/delete/{catID}")
     public Object deleteCatByID(@PathVariable int catID) {
         service.deleteCatByID(catID);
-        return new ResponseEntity<>(service.getAllCats(), HttpStatus.OK);
+        return "redirect:/cats/all";
+    }
+    @GetMapping("/index")
+    public String index() {
+        return "index"; 
+    }
+
+    @GetMapping("/details")
+    public String details() {
+        return "details"; 
+    }
+
+    @GetMapping("/about")
+    public String about() {
+        return "about"; 
     }
 
 
