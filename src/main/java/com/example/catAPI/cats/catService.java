@@ -43,9 +43,9 @@ public class catService {
      * @param name the search key.
      * @return the list of matching cats.
      */
-    public List<cat> getCatsByName(String name) {
+    public List<cat> getCatsByName(String catName) {
 
-        return catRepository.getCatsByName(name);
+        return catRepository.getCatsByName(catName);
     }
 
     /**

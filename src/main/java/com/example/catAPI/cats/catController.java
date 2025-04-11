@@ -3,7 +3,8 @@ package com.example.catAPI.cats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,13 +12,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 /** 
  * catController.java
  * Includes APIS for the cat object
  */
-@RestController
+
+//@RestController
+@Controller
 @RequestMapping("/cats")
 public class catController {
 
@@ -32,8 +33,11 @@ public class catController {
      */
 
      @GetMapping("/all")
-    public Object getAllCats() {
-        return new ResponseEntity<>(service.getAllCats(), HttpStatus.OK);
+    public Object getAllCats(Model model) {
+        // return new ResponseEntity<>(service.getAllCats(), HttpStatus.OK); 
+        model.addAttribute("catList", service.getAllCats());
+        model.addAttribute("title", "All Cats");
+        return "about"; // about.ftlh
 
     }
     
@@ -45,8 +49,11 @@ public class catController {
      * @return One cat object.
      */
     @GetMapping("/{catID}")
-    public Object getOneCat(@PathVariable int catID) {
-        return new ResponseEntity<>(service.getCatByID(catID), HttpStatus.OK);
+    public Object getOneCat(@PathVariable int catID, Model model) {
+        //return new ResponseEntity<>(service.getCatByID(catID), HttpStatus.OK); 
+        model.addAttribute("cat", service.getCatByID(catID));
+        model.addAttribute("title", "Cat #: " + catID);
+        return "details"; // details.ftlh
 
     }
 
@@ -58,8 +65,11 @@ public class catController {
      * @return list of cats objects matching the search key.
      */
     @GetMapping("/name")
-    public Object getCatsByName(@RequestParam(name = "search", defaultValue = "") String search) {
-        return new ResponseEntity<>(service.getCatsByName(search), HttpStatus.OK);
+    public Object getCatsByName(@RequestParam(name = "search", defaultValue = "") String search, Model model) {
+        // return new ResponseEntity<>(service.getCatsByName(search), HttpStatus.OK);
+        model.addAttribute("catList", service.getCatsByName(search));
+        model.addAttribute("title", "Cats by Name: " + search);
+        return "about";
     }
 
     /**
@@ -70,8 +80,12 @@ public class catController {
      * @return list of cats objects matching the search key.
      */
     @GetMapping("/breed")
-    public Object getCatsByBreed(@RequestParam(name = "search", defaultValue = "") String search) {
-        return new ResponseEntity<>(service.getCatsByBreed(search), HttpStatus.OK);
+    public Object getCatsByBreed(@RequestParam(name = "search", defaultValue = "") String search, Model model) {
+        // return new ResponseEntity<>(service.getCatsByBreed(search), HttpStatus.OK);
+        model.addAttribute("cat", service.getCatsByBreed(search));
+        model.addAttribute("title", "Cats by breed: " + search);
+        return "about";
+
     }
 
     /**
@@ -97,23 +111,56 @@ public class catController {
      */
     @GetMapping("/description")
     public ResponseEntity<Object> getCatsByDescription(@RequestParam String search) {
-        return new ResponseEntity<>(service.getCatsByDescription(search), HttpStatus.OK);
+        return new ResponseEntity<>(service.getCatsByDescription(search), HttpStatus.OK); 
+
+    }
+ 
+    /**
+     * Show the view for a new Cat Form.
+     *
+     * @param model
+     * @return the form view
+     */
+    @GetMapping("/createForm")
+    public String showCreateForm(Model model) {
+        cat cat = new cat();
+        model.addAttribute("cat", cat);
+        model.addAttribute("title", "Create New Cat");
+        return "cat-create";
+    }
+        /**
+     * Show the update form.
+     *
+     * @param catID
+     * @param model
+     * @return the update form view.
+     */
+    @GetMapping("/update/{catID}")
+    public String showUpdateForm(@PathVariable int catID, Model model) {
+        model.addAttribute("cat", service.getCatByID(catID));
+        model.addAttribute("title", "Update Cat");
+        return "cat-update";
     }
 
     /**
      * Create a new cat entry.
-     * http://localhost:8080/cats/new --data '{"catName": "sample new cat", "description": "Orange cat with fluffy fur", "breed": tabby, "age": 5.0}'
+     * http://localhost:8080/cats/new  {
+    "catName": "Fluffy",  
+    "desc": "A cute cat",
+    "breed": "Siamese",
+    "age": 2.0            
+    }
      *
      * @param cat the new cat object.
      * @return the updated list of cats.
      */
+ 
     @PostMapping("/new")
     public Object addNewCat(@RequestBody cat cat) {
         service.addNewCat(cat);
         return new ResponseEntity<>(service.getAllCats(), HttpStatus.CREATED);
-
     }
-
+    
     /**
      * Update an existing cat object.
      * http://localhost:8080/cats/update/2 --data '{ "catID": 1, "name": "sampleUpdated", "description": "Orange cat with fluffy fur", "breed": "tabby", "age": 5}'
@@ -137,7 +184,7 @@ public class catController {
      * @param catID the unique cat Id.
      * @return the updated list of cats.
      */
-    @DeleteMapping("/delete/{catID}")
+    @GetMapping("/delete/{catID}")
     public Object deleteCatByID(@PathVariable int catID) {
         service.deleteCatByID(catID);
         return new ResponseEntity<>(service.getAllCats(), HttpStatus.OK);
